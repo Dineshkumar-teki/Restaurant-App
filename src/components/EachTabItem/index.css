@@ -1,0 +1,15 @@
+li {
+  flex-shrink: 0;
+  padding: 1rem 0.5rem;
+}
+.active {
+  color: red;
+  border-bottom: 2px solid red;
+}
+.tab {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-weight: 600;
+}

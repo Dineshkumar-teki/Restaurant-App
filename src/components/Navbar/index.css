@@ -1,0 +1,91 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  height: 15vh;
+  border-bottom: 2px solid silver;
+}
+.cartIcon {
+  font-size: 2rem;
+  color: gray;
+}
+.cartDetails {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+.cartDetails > p {
+  color: gray;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.cartContainer {
+  position: relative;
+}
+.cartCount {
+  background-color: rgb(252, 86, 86);
+  padding: 3px;
+  position: absolute;
+  font-size: 12px;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 0 solid;
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  border-radius: 50%;
+  left: 1.25rem;
+  top: -0.5rem;
+}
+@media (max-width: 425px) {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    height: 10vh;
+    border-bottom: 1px solid silver;
+  }
+  .restaurantName {
+    font-size: 1.2rem;
+  }
+  .cartIcon {
+    font-size: 1.5rem;
+    color: gray;
+  }
+  .cartDetails {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  .cartDetails > p {
+    color: gray;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .cartContainer {
+    position: relative;
+  }
+  .cartCount {
+    background-color: rgb(252, 86, 86);
+    padding: 3px;
+    position: absolute;
+    font-size: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 0 solid;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    left: 1rem;
+    top: -0.5rem;
+  }
+}
