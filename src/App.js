@@ -3,6 +3,7 @@ import Loader from 'react-loader-spinner'
 import Navbar from './components/Navbar'
 import EachTabItem from './components/EachTabItem'
 import EachDishItem from './components/EachDishItem'
+import CartList from './context/CartList'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import './App.css'
 
@@ -21,9 +22,9 @@ class App extends Component {
     tableMenuList: [],
     activeTabItem: '',
     categoryDishes: [],
-    cartCount: 0,
     view: pageViews.initial,
     restaurantName: '',
+    cartList: [],
   }
 
   componentDidMount() {
@@ -64,12 +65,41 @@ class App extends Component {
     this.setState({activeTabItem: id, categoryDishes})
   }
 
-  decreaseCartCount = () => {
-    this.setState(prevState => ({cartCount: prevState.cartCount - 1}))
+  decrementCountValue = id => {
+    const {cartList} = this.state
+    const cartListIds = cartList.map(eachItem => eachItem.id)
+    if (cartListIds.includes(id)) {
+      const updatedList = cartList.map(eachItem => {
+        if (eachItem.id === id && eachItem.quantity > 0) {
+          return {
+            id: eachItem.id,
+            quantity: eachItem.quantity - 1,
+          }
+        }
+        return eachItem
+      })
+      this.setState({cartList: updatedList})
+    }
   }
 
-  increaseCartCount = () => {
-    this.setState(prevState => ({cartCount: prevState.cartCount + 1}))
+  incrementCountValue = id => {
+    const {cartList} = this.state
+    const cartListIds = cartList.map(eachItem => eachItem.id)
+    if (cartListIds.includes(id)) {
+      const updatedList = cartList.map(eachItem => {
+        if (eachItem.id === id) {
+          return {
+            id: eachItem.id,
+            quantity: eachItem.quantity + 1,
+          }
+        }
+        return eachItem
+      })
+      this.setState({cartList: updatedList})
+    } else {
+      const newItem = {id, quantity: 1}
+      this.setState(prevState => ({cartList: [...prevState.cartList, newItem]}))
+    }
   }
 
   displayView = () => {
@@ -79,7 +109,8 @@ class App extends Component {
       tableMenuList,
       activeTabItem,
       restaurantName,
-      cartCount,
+      count,
+      cartList,
     } = this.state
     const formatedCategoryDishes = categoryDishes.map(eachDishItem => ({
       addOnCat: eachDishItem.addonCat,
@@ -102,8 +133,15 @@ class App extends Component {
         )
       case pageViews.success:
         return (
-          <>
-            <Navbar restaurantName={restaurantName} cartCount={cartCount} />
+          <CartList.Provider
+            value={{
+              cartList,
+              count,
+              incrementCountValue: this.incrementCountValue,
+              decrementCountValue: this.decrementCountValue,
+            }}
+          >
+            <Navbar restaurantName={restaurantName} cartCount={count} />
             <ul className="tabsList">
               {tableMenuList.map(eachItem => (
                 <EachTabItem
@@ -124,7 +162,7 @@ class App extends Component {
                 />
               ))}
             </ul>
-          </>
+          </CartList.Provider>
         )
       default:
         return null
