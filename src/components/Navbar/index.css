@@ -1,45 +1,61 @@
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 3rem;
-  height: 15vh;
-  border-bottom: 2px solid silver;
-}
-.cartIcon {
-  font-size: 2rem;
-  color: gray;
-}
-.cartDetails {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
-}
-.cartDetails > p {
-  color: gray;
-  font-size: 1rem;
-  font-weight: 700;
-}
-.cartContainer {
-  position: relative;
-}
-.cartCount {
-  background-color: rgb(252, 86, 86);
-  padding: 3px;
-  position: absolute;
-  font-size: 12px;
-  width: 1.2rem;
-  height: 1.2rem;
-  border: 0 solid;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: 700;
-  border-radius: 50%;
-  left: 1.25rem;
-  top: -0.5rem;
+@media (min-width: 426px) {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    height: 15vh;
+    border-bottom: 2px solid silver;
+  }
+  .cartIcon {
+    font-size: 2rem;
+    color: gray;
+  }
+  .cartDetails {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  .cartDetails > p {
+    color: gray;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+  .cartContainer {
+    position: relative;
+  }
+  .cartCount {
+    background-color: rgb(252, 86, 86);
+    padding: 3px;
+    position: absolute;
+    font-size: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 0 solid;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    left: 1.25rem;
+    top: -0.5rem;
+  }
+  .logoutBtn {
+    background-color: rgb(76, 76, 248);
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    transition: 0.8s;
+  }
+  nav a {
+    text-decoration: none;
+    color: black;
+  }
 }
 @media (max-width: 425px) {
   nav {
@@ -88,4 +104,17 @@ nav {
     left: 1rem;
     top: -0.5rem;
   }
+  .logoutBtn {
+    background-color: blue;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+    font-weight: 600;
+    transition: 0.8s;
+  }
+}
+.logoutBtn:hover {
+  background-color: rgb(37, 150, 216);
 }

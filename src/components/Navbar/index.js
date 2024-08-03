@@ -1,9 +1,18 @@
 import {AiOutlineShoppingCart} from 'react-icons/ai'
+import {Link, withRouter} from 'react-router-dom'
+import Cookies from 'js-cookie'
 import CartList from '../../context/CartList'
 import './index.css'
 
 const Navbar = props => {
   const {restaurantName} = props
+
+  const onLogout = () => {
+    Cookies.remove('JWT-Token')
+    const {history} = props
+    history.replace('/')
+  }
+
   return (
     <CartList.Consumer>
       {value => {
@@ -15,13 +24,20 @@ const Navbar = props => {
         }
         return (
           <nav>
-            <h1 className="restaurantName">{restaurantName}</h1>
+            <Link to="/">
+              <h1 className="restaurantName">{restaurantName}Home</h1>
+            </Link>
             <div className="cartDetails">
               <p>My Orders</p>
-              <div className="cartContainer">
-                <AiOutlineShoppingCart className="cartIcon" />
-                <span className="cartCount">{cartCount}</span>
-              </div>
+              <Link to="/cart">
+                <div className="cartContainer">
+                  <AiOutlineShoppingCart className="cartIcon" />
+                  <span className="cartCount">{cartList.length}</span>
+                </div>
+              </Link>
+              <button type="button" onClick={onLogout} className="logoutBtn">
+                Logout
+              </button>
             </div>
           </nav>
         )
@@ -30,4 +46,4 @@ const Navbar = props => {
   )
 }
 
-export default Navbar
+export default withRouter(Navbar)

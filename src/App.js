@@ -1,176 +1,93 @@
 import {Component} from 'react'
-import Loader from 'react-loader-spinner'
-import Navbar from './components/Navbar'
-import EachTabItem from './components/EachTabItem'
-import EachDishItem from './components/EachDishItem'
+import {Route, Switch} from 'react-router-dom'
+import HomeRoute from './components/HomeRoute'
+import LoginRoute from './components/LoginRoute'
 import CartList from './context/CartList'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import CartRoute from './components/CartRoute'
+import ProtectedRoute from './components/ProtectedRoute'
 import './App.css'
 
-//
-
-const pageViews = {
-  initial: 'INITIAL',
-  success: 'SUCCESS',
-  failure: 'FAILURE',
-  pending: 'PENDING',
-}
-
-//  write your code here
 class App extends Component {
-  state = {
-    tableMenuList: [],
-    activeTabItem: '',
-    categoryDishes: [],
-    view: pageViews.initial,
-    restaurantName: '',
-    cartList: [],
-  }
+  state = {cartList: []}
 
-  componentDidMount() {
-    this.getItemsData()
-  }
-
-  getItemsData = async () => {
-    this.setState({view: pageViews.pending})
-    const url =
-      'https://apis2.ccbp.in/restaurant-app/restaurant-menu-list-details'
-    const response = await fetch(url)
-    const data = await response.json()
-    const formatedData = data.map(eachItem => ({
-      branchName: eachItem.branch_name,
-      nextUrl: eachItem.nexturl,
-      restaurantId: eachItem.restaurant_id,
-      restaurantImage: eachItem.restaurant_image,
-      restaurantName: eachItem.restaurant_name,
-      tableId: eachItem.table_id,
-      tableMenuList: eachItem.table_menu_list,
-      tableName: eachItem.table_name,
-    }))
-    const tabsList = formatedData[0].tableMenuList.map(eachItem => ({
-      menuCategory: eachItem.menu_category,
-      menuCategoryId: eachItem.menu_category_id,
-      categoryDishes: eachItem.category_dishes,
-    }))
-    this.setState({
-      tableMenuList: tabsList,
-      activeTabItem: tabsList[0].menuCategoryId,
-      categoryDishes: tabsList[0].categoryDishes,
-      view: pageViews.success,
-      restaurantName: formatedData[0].restaurantName,
+  decrementQuantity = id => {
+    const {cartList} = this.state
+    const updatedCartList = cartList.map(eachItem => {
+      if (eachItem.dishId === id) {
+        return {
+          ...eachItem,
+          dishQuantity: eachItem.dishQuantity - 1,
+        }
+      }
+      return eachItem
     })
+    this.setState({cartList: updatedCartList})
   }
 
-  alterTabItem = (id, categoryDishes) => {
-    this.setState({activeTabItem: id, categoryDishes})
-  }
-
-  decrementCountValue = id => {
+  incrementQuantity = id => {
     const {cartList} = this.state
-    const cartListIds = cartList.map(eachItem => eachItem.id)
-    if (cartListIds.includes(id)) {
-      const updatedList = cartList.map(eachItem => {
-        if (eachItem.id === id && eachItem.quantity > 0) {
+    const updatedCartList = cartList.map(eachItem => {
+      if (eachItem.dishId === id) {
+        return {
+          ...eachItem,
+          dishQuantity: eachItem.dishQuantity + 1,
+        }
+      }
+      return eachItem
+    })
+    this.setState({cartList: updatedCartList})
+  }
+
+  removeAllCartItems = () => {
+    this.setState({cartList: []})
+  }
+
+  addDishToCart = dishDetails => {
+    const {cartList} = this.state
+    const dishesIds = cartList.map(eachItem => eachItem.dishId)
+    if (dishesIds.includes(dishDetails.dishId)) {
+      const updatedCartList = cartList.map(eachdish => {
+        if (eachdish.dishId === dishDetails.dishId) {
           return {
-            id: eachItem.id,
-            quantity: eachItem.quantity - 1,
+            ...eachdish,
+            dishQuantity: eachdish.dishQuantity + dishDetails.dishQuantity,
           }
         }
-        return eachItem
+        return eachdish
       })
-      this.setState({cartList: updatedList})
-    }
-  }
-
-  incrementCountValue = id => {
-    const {cartList} = this.state
-    const cartListIds = cartList.map(eachItem => eachItem.id)
-    if (cartListIds.includes(id)) {
-      const updatedList = cartList.map(eachItem => {
-        if (eachItem.id === id) {
-          return {
-            id: eachItem.id,
-            quantity: eachItem.quantity + 1,
-          }
-        }
-        return eachItem
-      })
-      this.setState({cartList: updatedList})
+      this.setState({cartList: updatedCartList})
     } else {
-      const newItem = {id, quantity: 1}
-      this.setState(prevState => ({cartList: [...prevState.cartList, newItem]}))
+      this.setState({cartList: [...cartList, dishDetails]})
     }
   }
 
-  displayView = () => {
-    const {
-      view,
-      categoryDishes,
-      tableMenuList,
-      activeTabItem,
-      restaurantName,
-      count,
-      cartList,
-    } = this.state
-    const formatedCategoryDishes = categoryDishes.map(eachDishItem => ({
-      addOnCat: eachDishItem.addonCat,
-      dishType: eachDishItem.dish_Type,
-      dishAvailability: eachDishItem.dish_Availability,
-      dishCalories: eachDishItem.dish_calories,
-      dishCurrency: eachDishItem.dish_currency,
-      dishDescription: eachDishItem.dish_description,
-      dishId: eachDishItem.dish_id,
-      dishImage: eachDishItem.dish_image,
-      dishName: eachDishItem.dish_name,
-      dishPrice: eachDishItem.dish_price,
+  removeCartItem = id => {
+    this.setState(prevState => ({
+      cartList: prevState.cartList.filter(eachItem => eachItem.dishId !== id),
     }))
-    switch (view) {
-      case pageViews.pending:
-        return (
-          <div className="loader">
-            <Loader type="TailSpin" color="#00BFFF" height={50} width={50} />
-          </div>
-        )
-      case pageViews.success:
-        return (
-          <CartList.Provider
-            value={{
-              cartList,
-              count,
-              incrementCountValue: this.incrementCountValue,
-              decrementCountValue: this.decrementCountValue,
-            }}
-          >
-            <Navbar restaurantName={restaurantName} cartCount={count} />
-            <ul className="tabsList">
-              {tableMenuList.map(eachItem => (
-                <EachTabItem
-                  key={eachItem.menuCategoryId}
-                  tabItem={eachItem}
-                  activeTab={activeTabItem === eachItem.menuCategoryId}
-                  changeTabItem={this.alterTabItem}
-                />
-              ))}
-            </ul>
-            <ul className="dishesList">
-              {formatedCategoryDishes.map(eachDishItem => (
-                <EachDishItem
-                  dishItem={eachDishItem}
-                  key={eachDishItem.dishId}
-                  decreaseCartCount={this.decreaseCartCount}
-                  increaseCartCount={this.increaseCartCount}
-                />
-              ))}
-            </ul>
-          </CartList.Provider>
-        )
-      default:
-        return null
-    }
   }
 
   render() {
-    return <>{this.displayView()}</>
+    const {cartList} = this.state
+    console.log(cartList)
+    return (
+      <CartList.Provider
+        value={{
+          cartList,
+          decrementQuantity: this.decrementQuantity,
+          incrementQuantity: this.incrementQuantity,
+          removeAllCartItems: this.removeAllCartItems,
+          addDishToCart: this.addDishToCart,
+          removeCartItem: this.removeCartItem,
+        }}
+      >
+        <Switch>
+          <Route exact path="/login" component={LoginRoute} />
+          <ProtectedRoute exact path="/" component={HomeRoute} />
+          <ProtectedRoute exact path="/cart" component={CartRoute} />
+        </Switch>
+      </CartList.Provider>
+    )
   }
 }
 

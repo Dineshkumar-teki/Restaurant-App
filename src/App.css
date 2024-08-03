@@ -36,3 +36,6 @@ body {
 .tabsList::-webkit-scrollbar {
   display: none;
 }
+button {
+  cursor: pointer;
+}

@@ -1,0 +1,50 @@
+.loginRoute {
+  background-color: aquamarine;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginCard {
+  background-color: white;
+  border-radius: 16px;
+  width: 30%;
+  padding: 2.5rem 1rem;
+}
+.loginCard > h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+}
+.loginCard > .loginForm {
+  display: flex;
+  flex-direction: column;
+}
+.loginForm > label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.loginForm > input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border: 1px solid silver;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  outline: none;
+}
+.loginBtn {
+  font-size: 1rem;
+  padding: 0.6rem 0;
+  background-color: rgb(29, 167, 212);
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+}
+.errMsg {
+  color: red;
+  font-size: 12px;
+}

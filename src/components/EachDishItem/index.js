@@ -3,7 +3,21 @@ import CartList from '../../context/CartList'
 import './index.css'
 
 class EachDishItem extends Component {
+  state = {dishQuantity: 0}
+
+  onDecreaseQuantity = () => {
+    const {dishQuantity} = this.state
+    if (dishQuantity > 0) {
+      this.setState(prevState => ({dishQuantity: prevState.dishQuantity - 1}))
+    }
+  }
+
+  onIncreaseQuantity = () => {
+    this.setState(prevState => ({dishQuantity: prevState.dishQuantity + 1}))
+  }
+
   render() {
+    const {dishQuantity} = this.state
     const {dishItem} = this.props
     const {
       dishType,
@@ -20,14 +34,24 @@ class EachDishItem extends Component {
     return (
       <CartList.Consumer>
         {value => {
-          const {cartList, incrementCountValue, decrementCountValue} = value
+          const {
+            cartList,
+            incrementCountValue,
+            decrementCountValue,
+            addDishToCart,
+          } = value
           const decreaseQuantity = () => {
-            decrementCountValue(dishId)
+            decrementCountValue(dishItem)
           }
           const increaseQuantity = () => {
-            incrementCountValue(dishId)
+            incrementCountValue(dishItem)
           }
-          const quant = cartList.filter(eachItem => eachItem.id === dishId)
+          const onAddToCartDish = () => {
+            if (dishQuantity > 0) {
+              addDishToCart({...dishItem, dishQuantity})
+            }
+          }
+          const quant = cartList.filter(eachItem => eachItem.dishId === dishId)
           const quantValue = quant.length > 0 ? quant[0].quantity : 0
           return (
             <li className="dishItem">
@@ -52,22 +76,33 @@ class EachDishItem extends Component {
                   </p>
                   <p className="dishDescription">{dishDescription}</p>
                   {dishAvailability ? (
-                    <div className="dishCounter">
-                      <button
-                        type="button"
-                        onClick={decreaseQuantity}
-                        className="minus"
-                      >
-                        -
-                      </button>
-                      <p>{quantValue}</p>
-                      <button
-                        type="button"
-                        onClick={increaseQuantity}
-                        className="add"
-                      >
-                        +
-                      </button>
+                    <div className="quantAndAddToCart">
+                      <div className="dishCounter">
+                        <button
+                          type="button"
+                          onClick={this.onDecreaseQuantity}
+                          className="minus"
+                        >
+                          -
+                        </button>
+                        <p>{dishQuantity}</p>
+                        <button
+                          type="button"
+                          onClick={this.onIncreaseQuantity}
+                          className="add"
+                        >
+                          +
+                        </button>
+                      </div>
+                      {dishQuantity > 0 ? (
+                        <button
+                          type="button"
+                          className="addToCart"
+                          onClick={onAddToCartDish}
+                        >
+                          ADD TO CART
+                        </button>
+                      ) : null}
                     </div>
                   ) : (
                     <p className="notAvailable">Not available</p>
