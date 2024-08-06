@@ -21,16 +21,20 @@ class CartItem extends Component {
     return (
       <CartList.Consumer>
         {value => {
-          const {incrementQuantity, decrementQuantity, removeCartItem} = value
+          const {
+            incrementCartItemQuantity,
+            decrementCartItemQuantity,
+            removeCartItem,
+          } = value
           const decreaseQuantity = () => {
             if (dishQuantity > 1) {
-              decrementQuantity(dishId)
+              decrementCartItemQuantity(dishId)
             } else {
               removeCartItem(dishId)
             }
           }
           const increaseQuantity = () => {
-            incrementQuantity(dishId)
+            incrementCartItemQuantity(dishId)
           }
           const onRemoveCartItem = () => {
             removeCartItem(dishId)

@@ -29,30 +29,16 @@ class EachDishItem extends Component {
       dishName,
       dishPrice,
       addOnCat,
-      dishId,
     } = dishItem
     return (
       <CartList.Consumer>
         {value => {
-          const {
-            cartList,
-            incrementCountValue,
-            decrementCountValue,
-            addDishToCart,
-          } = value
-          const decreaseQuantity = () => {
-            decrementCountValue(dishItem)
-          }
-          const increaseQuantity = () => {
-            incrementCountValue(dishItem)
-          }
+          const {addCartItem} = value
           const onAddToCartDish = () => {
             if (dishQuantity > 0) {
-              addDishToCart({...dishItem, dishQuantity})
+              addCartItem({...dishItem, dishQuantity})
             }
           }
-          const quant = cartList.filter(eachItem => eachItem.dishId === dishId)
-          const quantValue = quant.length > 0 ? quant[0].quantity : 0
           return (
             <li className="dishItem">
               <div className="dishDetails">

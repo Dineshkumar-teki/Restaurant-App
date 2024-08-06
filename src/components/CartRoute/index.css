@@ -21,7 +21,7 @@
   gap: 1rem;
 }
 .emptyCartSection {
-  height: 90vh;
+  height: 80vh;
   background-color: whitesmoke;
   display: flex;
   flex-direction: column;
@@ -29,6 +29,6 @@
   align-items: center;
 }
 .emptyCartSection > img {
-  width: 40%;
+  width: 30%;
   object-fit: scale-down;
 }

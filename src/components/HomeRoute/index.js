@@ -3,7 +3,6 @@ import Loader from 'react-loader-spinner'
 import Navbar from '../Navbar'
 import EachTabItem from '../EachTabItem'
 import EachDishItem from '../EachDishItem'
-import CartList from '../../context/CartList'
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 
 const pageViews = {

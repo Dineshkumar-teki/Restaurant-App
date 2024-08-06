@@ -23,6 +23,9 @@
   }
   .cartContainer {
     position: relative;
+    background-color: transparent;
+    border: none;
+    outline: none;
   }
   .cartCount {
     background-color: rgb(252, 86, 86);

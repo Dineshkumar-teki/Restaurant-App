@@ -25,15 +25,15 @@ const Navbar = props => {
         return (
           <nav>
             <Link to="/">
-              <h1 className="restaurantName">{restaurantName}Home</h1>
+              <h1 className="restaurantName">{restaurantName} Home</h1>
             </Link>
             <div className="cartDetails">
               <p>My Orders</p>
               <Link to="/cart">
-                <div className="cartContainer">
+                <button data-testid="cart" className="cartContainer">
                   <AiOutlineShoppingCart className="cartIcon" />
                   <span className="cartCount">{cartList.length}</span>
-                </div>
+                </button>
               </Link>
               <button type="button" onClick={onLogout} className="logoutBtn">
                 Logout

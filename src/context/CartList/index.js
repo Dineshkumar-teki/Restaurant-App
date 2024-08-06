@@ -2,10 +2,10 @@ import React from 'react'
 
 const CountContext = React.createContext({
   cartList: [],
-  incrementQuantity: () => {},
-  decrementQuantity: () => {},
+  incrementCartItemQuantity: () => {},
+  decrementCartItemQuantity: () => {},
   removeAllCartItems: () => {},
-  addDishToCart: () => {},
+  addCartItem: () => {},
   removeCartItem: () => {},
 })
 

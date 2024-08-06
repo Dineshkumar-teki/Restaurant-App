@@ -10,7 +10,7 @@ import './App.css'
 class App extends Component {
   state = {cartList: []}
 
-  decrementQuantity = id => {
+  decrementCartItemQuantity = id => {
     const {cartList} = this.state
     const updatedCartList = cartList.map(eachItem => {
       if (eachItem.dishId === id) {
@@ -24,7 +24,7 @@ class App extends Component {
     this.setState({cartList: updatedCartList})
   }
 
-  incrementQuantity = id => {
+  incrementCartItemQuantity = id => {
     const {cartList} = this.state
     const updatedCartList = cartList.map(eachItem => {
       if (eachItem.dishId === id) {
@@ -42,7 +42,7 @@ class App extends Component {
     this.setState({cartList: []})
   }
 
-  addDishToCart = dishDetails => {
+  addCartItem = dishDetails => {
     const {cartList} = this.state
     const dishesIds = cartList.map(eachItem => eachItem.dishId)
     if (dishesIds.includes(dishDetails.dishId)) {
@@ -74,10 +74,10 @@ class App extends Component {
       <CartList.Provider
         value={{
           cartList,
-          decrementQuantity: this.decrementQuantity,
-          incrementQuantity: this.incrementQuantity,
+          decrementCartItemQuantity: this.decrementCartItemQuantity,
+          incrementCartItemQuantity: this.incrementCartItemQuantity,
           removeAllCartItems: this.removeAllCartItems,
-          addDishToCart: this.addDishToCart,
+          addCartItem: this.addCartItem,
           removeCartItem: this.removeCartItem,
         }}
       >
